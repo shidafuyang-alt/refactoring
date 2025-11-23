@@ -72,6 +72,7 @@ public class StatementData {
      *
      * @param credits the credits to add
      */
+
     public void addToTotalVolumeCredits(int credits) {
         totalVolumeCredits += credits;
     }

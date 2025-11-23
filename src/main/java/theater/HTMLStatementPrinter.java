@@ -49,10 +49,11 @@ public class HTMLStatementPrinter extends StatementPrinter {
         result.append("</table>").append(System.lineSeparator());
         result.append(String.format(
                 "<p>Amount owed is <em>%s</em></p>%n",
-                formatCurrency(data.totalAmount())));
+                formatCurrency(data.getTotalAmount())));
+
         result.append(String.format(
                 "<p>You earned <em>%s</em> credits</p>%n",
-                data.volumeCredits()));
+                data.getTotalVolumeCredits()));
 
         return result.toString();
     }

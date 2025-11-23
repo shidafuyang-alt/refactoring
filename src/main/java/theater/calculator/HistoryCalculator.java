@@ -5,12 +5,12 @@ import theater.Performance;
 import theater.Play;
 
 /**
- * Calculator for history plays.
+ * Calculator for history performances.
  */
 public class HistoryCalculator extends AbstractPerformanceCalculator {
 
     /**
-     * Creates a history calculator.
+     * Creates a HistoryCalculator.
      *
      * @param performance the performance
      * @param play the play
@@ -19,6 +19,11 @@ public class HistoryCalculator extends AbstractPerformanceCalculator {
         super(performance, play);
     }
 
+    /**
+     * Calculates amount owed for a history play.
+     *
+     * @return amount in cents
+     */
     @Override
     public int amount() {
         int result = Constants.HISTORY_BASE_AMOUNT;
@@ -29,10 +34,13 @@ public class HistoryCalculator extends AbstractPerformanceCalculator {
         return result;
     }
 
+    /**
+     * Calculates volume credits for a history play.
+     *
+     * @return volume credits
+     */
     @Override
     public int volumeCredits() {
-        return super.volumeCredits()
-                + Math.max(getPerformance().getAudience()
-                - Constants.HISTORY_VOLUME_CREDIT_THRESHOLD, 0);
+        return Math.max(getPerformance().getAudience() - Constants.HISTORY_VOLUME_CREDIT_THRESHOLD, 0);
     }
 }

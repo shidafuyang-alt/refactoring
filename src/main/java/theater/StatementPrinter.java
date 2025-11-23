@@ -104,7 +104,6 @@ public class StatementPrinter {
                 formatCurrency(data.getTotalAmount())));
         result.append(String.format("You earned %s credits%n",
                 data.getTotalVolumeCredits()));
-
         return result.toString();
     }
 

@@ -4,11 +4,6 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Map;
 
-import theater.calculator.AbstractPerformanceCalculator;
-import theater.calculator.ComedyCalculator;
-import theater.calculator.HistoryCalculator;
-import theater.calculator.PastoralCalculator;
-import theater.calculator.TragedyCalculator;
 import theater.data.PerformanceData;
 import theater.data.StatementData;
 
@@ -16,18 +11,18 @@ import theater.data.StatementData;
  * This class generates a statement for a given invoice of performances.
  */
 public class StatementPrinter {
-    private final Invoice invoice;
-    private final Map<String, Play> plays;
+
+    private final StatementData statementData;
 
     /**
      * Creates a StatementPrinter for the given invoice and plays.
+     * All calculation is done inside StatementData.
      *
      * @param invoice the invoice to print
-     * @param plays the play map
+     * @param plays the map of play information
      */
     public StatementPrinter(Invoice invoice, Map<String, Play> plays) {
-        this.invoice = invoice;
-        this.plays = plays;
+        this.statementData = new StatementData(invoice, plays);
     }
 
     /**
@@ -36,57 +31,15 @@ public class StatementPrinter {
      * @return the formatted statement
      */
     public String statement() {
-        final StatementData data = createStatementData();
-        return renderPlainText(data);
+        return renderPlainText(statementData);
     }
 
     /**
-     * Create a data object containing the calculation results.
+     * Render a formatted plain text statement using precomputed data.
      *
-     * @return statement data
+     * @param data the computed statement data
+     * @return formatted plain-text statement
      */
-    private StatementData createStatementData() {
-        final StatementData data = new StatementData();
-        data.setCustomer(invoice.getCustomer());
-
-        for (final Performance performance : invoice.getPerformances()) {
-            final PerformanceData pd = new PerformanceData();
-            final Play play = getPlay(performance);
-            final AbstractPerformanceCalculator calc = createCalculator(performance, play);
-
-            pd.setPlayName(play.getName());
-            pd.setPlayType(play.getType());
-            pd.setAudience(performance.getAudience());
-            pd.setAmount(calc.amount());
-            pd.setVolumeCredits(calc.volumeCredits());
-
-            data.getPerformances().add(pd);
-            data.addToTotalAmount(pd.getAmount());
-            data.addToTotalVolumeCredits(pd.getVolumeCredits());
-        }
-        return data;
-    }
-
-    private Play getPlay(Performance performance) {
-        return plays.get(performance.getPlayID());
-    }
-
-    private AbstractPerformanceCalculator createCalculator(Performance performance, Play play) {
-        switch (play.getType()) {
-            case "tragedy":
-                return new TragedyCalculator(performance, play);
-            case "comedy":
-                return new ComedyCalculator(performance, play);
-            case "history":
-                return new HistoryCalculator(performance, play);
-            case "pastoral":
-                return new PastoralCalculator(performance, play);
-            default:
-                throw new RuntimeException(
-                        String.format("unknown type: %s", play.getType()));
-        }
-    }
-
     private String renderPlainText(StatementData data) {
         final StringBuilder result = new StringBuilder();
         result.append("Statement for ")
@@ -100,15 +53,36 @@ public class StatementPrinter {
                     pd.getAudience()));
         }
 
-        result.append(String.format("Amount owed is %s%n",
+        // If you named these getTotalAmount/getTotalVolumeCredits, swap them back.
+        result.append(String.format(
+                "Amount owed is %s%n",
                 formatCurrency(data.getTotalAmount())));
-        result.append(String.format("You earned %s credits%n",
+
+        result.append(String.format(
+                "You earned %s credits%n",
                 data.getTotalVolumeCredits()));
+
         return result.toString();
     }
 
+    /**
+     * Formats cents into USD currency string.
+     *
+     * @param amountInCents amount in cents
+     * @return formatted USD string
+     */
     private String formatCurrency(int amountInCents) {
         final NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
         return frmt.format(amountInCents / Constants.PERCENT_FACTOR);
     }
+
+    /**
+     * Provides access to computed statement data for subclasses.
+     *
+     * @return the computed statement data
+     */
+    protected StatementData getStatementData() {
+        return statementData;
+    }
+
 }

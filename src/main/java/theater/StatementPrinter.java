@@ -93,20 +93,23 @@ public class StatementPrinter {
                 .append(data.getCustomer())
                 .append(System.lineSeparator());
 
-        final NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
-
         for (final PerformanceData pd : data.getPerformances()) {
             result.append(String.format("  %s: %s (%s seats)%n",
                     pd.getPlayName(),
-                    frmt.format(pd.getAmount() / Constants.PERCENT_FACTOR),
+                    formatCurrency(pd.getAmount()),
                     pd.getAudience()));
         }
 
         result.append(String.format("Amount owed is %s%n",
-                frmt.format(data.getTotalAmount() / Constants.PERCENT_FACTOR)));
+                formatCurrency(data.getTotalAmount())));
         result.append(String.format("You earned %s credits%n",
                 data.getTotalVolumeCredits()));
 
         return result.toString();
+    }
+
+    private String formatCurrency(int amountInCents) {
+        final NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
+        return frmt.format(amountInCents / Constants.PERCENT_FACTOR);
     }
 }

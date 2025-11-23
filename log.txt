@@ -1,7 +1,8 @@
+96687e8 (HEAD -> task2, origin/task2) Task 2.4 Extract totals
+da1eaea Task 2.3 Introduce usd helper
+47136d0 Task 2.2 Extract volume credits calculation
+481d2cf Task 2.1 Extract amount calculation
+76c3f66 no error for calculator just for now
+ae14673 data correct for now
+00e1dad (origin/main, origin/HEAD, main) Task 1.2
 d6f323b (HEAD -> main, origin/main, origin/HEAD) Task 1.1
-2b4f164 fixed tests for the not-for-credit tasks; parameter ordering and ensuring consistent line endings.
-ff5004e adding shortcut keys for Inline Variable (Re: Piazza question)
-b545fe2 clarifying extracted method names in README.md
-a0124c9 fixing starter file
-c8d9d38 adding starter files
-cbe4517 first commit

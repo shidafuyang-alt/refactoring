@@ -60,19 +60,13 @@ public class StatementData {
      * @return the appropriate calculator implementation
      * @throws RuntimeException if the play type is unknown
      */
-    private AbstractPerformanceCalculator createCalculator(Performance performance,
-                                                           Play play) {
+    private AbstractPerformanceCalculator createCalculator(Performance performance, Play play) {
         switch (play.getType()) {
-            case "tragedy":
-                return new TragedyCalculator(performance, play);
-            case "comedy":
-                return new ComedyCalculator(performance, play);
-            case "history":
-                return new HistoryCalculator(performance, play);
-            case "pastoral":
-                return new PastoralCalculator(performance, play);
-            default:
-                throw new RuntimeException("unknown type: " + play.getType());
+            case "tragedy": return new TragedyCalculator(performance, play);
+            case "comedy": return new ComedyCalculator(performance, play);
+            case "history": return new HistoryCalculator(performance, play);
+            case "pastoral": return new PastoralCalculator(performance, play);
+            default: throw new RuntimeException("unknown type: " + play.getType());
         }
     }
 

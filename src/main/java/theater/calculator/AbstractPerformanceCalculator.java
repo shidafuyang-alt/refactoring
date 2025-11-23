@@ -55,7 +55,6 @@ public abstract class AbstractPerformanceCalculator {
      */
     public int volumeCredits() {
         return Math.max(
-                performance.getAudience() - Constants.BASE_VOLUME_CREDIT_THRESHOLD,
-                0);
+                performance.getAudience() - Constants.BASE_VOLUME_CREDIT_THRESHOLD, 0);
     }
 }

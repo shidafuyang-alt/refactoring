@@ -5,12 +5,12 @@ import theater.Performance;
 import theater.Play;
 
 /**
- * Calculator for pastoral plays.
+ * Calculator for pastoral performances.
  */
 public class PastoralCalculator extends AbstractPerformanceCalculator {
 
     /**
-     * Creates a pastoral calculator.
+     * Creates a PastoralCalculator.
      *
      * @param performance the performance
      * @param play the play
@@ -19,6 +19,11 @@ public class PastoralCalculator extends AbstractPerformanceCalculator {
         super(performance, play);
     }
 
+    /**
+     * Calculates amount owed for a pastoral play.
+     *
+     * @return amount in cents
+     */
     @Override
     public int amount() {
         int result = Constants.PASTORAL_BASE_AMOUNT;
@@ -29,10 +34,18 @@ public class PastoralCalculator extends AbstractPerformanceCalculator {
         return result;
     }
 
+    /**
+     * Calculates volume credits for a pastoral play.
+     *
+     * @return volume credits
+     */
     @Override
     public int volumeCredits() {
-        return super.volumeCredits()
-                + Math.max(getPerformance().getAudience()
-                - Constants.PASTORAL_VOLUME_CREDIT_THRESHOLD, 0);
+        return Math.max(
+                getPerformance().getAudience()
+                        - Constants.PASTORAL_VOLUME_CREDIT_THRESHOLD,
+                0)
+                + getPerformance().getAudience()
+                / Constants.PASTORAL_VOLUME_CREDIT_DIVISOR;
     }
 }

@@ -132,22 +132,4 @@ public class StatementData {
     public void addToTotalVolumeCredits(int credits) {
         totalVolumeCredits += credits;
     }
-
-    /**
-     * Returns total amount owed in cents.
-     *
-     * @return total amount
-     */
-    public int totalAmount() {
-        return totalAmount;
-    }
-
-    /**
-     * Returns total volume credits earned.
-     *
-     * @return total credits
-     */
-    public int volumeCredits() {
-        return totalVolumeCredits;
-    }
 }
